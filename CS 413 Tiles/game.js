@@ -118,3 +118,54 @@ Helper Functions
 	  );
 	  return key;
 	}
+	
+	/*******************************************************************************************************
+	Keyboard Control Definitions
+	*******************************************************************************************************/
+	// Variables storing Ascii keyCodes for WASD keys
+	var up = keyboard(87),	// W
+		down = keyboard(83), // A
+		left = keyboard(65), // S
+		right = keyboard(68); // D
+		interact = keyboard(69); // E
+		
+	up.press = function() {
+		
+	}
+	
+	up.release = function() {
+		
+	}
+	
+	down.press = function() {
+		
+	}
+	
+	down.release = function() {
+		
+	}
+	left.press = function() {
+		
+	}
+	
+	left.release = function() {
+		
+	}
+	
+	right.press = function() {
+		
+	}
+	
+	right.release = function() {
+		
+	}
+	
+	interact.press = function() {
+		
+	}
+	
+	interact.release = function() {
+		
+	}
+	
+	
