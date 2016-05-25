@@ -1,10 +1,15 @@
 /**********************************************************************************************************
-Global Variables
+Game Global Variables/Constants
 **********************************************************************************************************/
-// Game Globals
 var GAME_WIDTH = 800;
 var GAME_HEIGHT = 600;
 var GAME_SCALE = 4;
+
+var MOVE_LEFT = 1;
+var MOVE_RIGHT = 2;
+var MOVE_UP = 3;
+var MOVE_DOWN = 4;
+var MOVE_NONE = 0;
 
 /**********************************************************************************************************
 Attaching to Gameport
@@ -34,3 +39,82 @@ var stage = new Container(),
 	
 // Appying to the HTML view
 gameport.appendChild(renderer.view);
+
+/**********************************************************************************************************
+Loader
+**********************************************************************************************************/	
+// Load Music, Assets, and Setup
+
+loader
+	.load(setup);
+	
+/**********************************************************************************************************
+Global Variables
+**********************************************************************************************************/	
+
+var player, world;
+
+/**********************************************************************************************************
+Setup Function
+**********************************************************************************************************/
+
+
+/**********************************************************************************************************
+Helper Functions
+**********************************************************************************************************/
+	
+	/**********************************************************************************************************
+	Keyboard Function
+	**********************************************************************************************************/
+	// Keyboard function to support general Ascii Key Codes function creation
+	function keyboard(keyCode) {
+		// Empty Key Object
+		var key = {};
+		// Code:keyCode
+		key.code = keyCode;
+		
+		// Default Settings for button positions
+		key.isDown = false;
+		key.isUp = true;
+		key.press = undefined;
+		key.release = undefined;
+	  
+		// When the key is pressed, call the downHandler
+		key.downHandler = function(event) {
+			// Verify the keyCode parameter matches the object code
+			if (event.keyCode === key.code) {
+				// If the key is up then key press
+				if (key.isUp && key.press) key.press();
+				
+				// Settings for button positions
+				key.isDown = true;
+				key.isUp = false;
+			}
+			// Cancels the event
+			event.preventDefault();
+		};
+
+		//The is released, call the upHandler
+		key.upHandler = function(event) {
+			// Verify the keyCode parameter matches the object code
+			if (event.keyCode === key.code) {
+				// If the key is down and released then release
+				if (key.isDown && key.release) key.release();
+				
+				// Setting for button positions
+				key.isDown = false;
+				key.isUp = true;
+			}
+		// Cancels the event
+		event.preventDefault();
+		};
+
+	  //Attach event listeners
+	  window.addEventListener(
+		"keydown", key.downHandler.bind(key), false
+	  );
+	  window.addEventListener(
+		"keyup", key.upHandler.bind(key), false
+	  );
+	  return key;
+	}
