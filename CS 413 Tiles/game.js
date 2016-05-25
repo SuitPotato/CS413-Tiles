@@ -118,9 +118,46 @@ function setup(){
 	instructBut = new Sprite(id[""]);
 	creditsBut = new Sprite(id[""]);
 	
-	// Introduction Menu
+	introScene.addChild(introMenu);
 	
-	// Help Scene
+	// Buttons Container
+	var introMenuButtons = new Container();
+	introMenuButtons.position.x = 300;
+	introMenuButtons.position.y = 300;
+	introScene.addChild(introMenuButtons);
+	
+		// Stagger effect
+			// Play
+				// Instruction
+					// Credits
+	
+	
+		// Play Button
+		introMenuButtons.addChild(playBut);
+		playBut.anchor.x = 0.5;
+		playBut.anchor.y = 0.5;
+		playBut.position.x = 0;
+		playBut.position.y = 0;
+		
+		// Instruction Button
+		introMenuButtons.addChild(instructBut);
+		instructBut.anchor.x = 0.5;
+		instructBut.anchor.y = 0.5;
+		instructBut.position.x = 50;
+		instructBut.position.y = 100;
+		
+		// Credits button
+		introMenuButtons.addChild(creditsBut);
+		creditsBut.anchor.x = 0.5;
+		creditsBut.anchor.y = 0.5;
+		creditsBut.position.x = 100;
+		creditsBut.position.y = 200;
+	
+	/*******************************************************************************************************
+	Help Scene 
+	*******************************************************************************************************/
+	
+	
 	
 	// Credits Scene
 	
