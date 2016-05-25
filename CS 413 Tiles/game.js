@@ -86,18 +86,30 @@ function setup(){
 	Scene Creations
 	*******************************************************************************************************/
 	// Introduction Menu
+	
 	introScene = new Container();
 	stage.addChild(introScene);
 	
-	// How to Play Scene
+	// How to Play/Instructions Scene
 	instructScene = new Container();
 	stage.addChild(instructScene);
 	instructScene.visible = false;
+	
+		// Positioned to Right of the Menu
+		// Tween in
+		instuctScene.position.x = 800;
+		instrucScene.position.y = 0;
+	
 	
 	// Credits Scene
 	creditScene = new Container();
 	stage.addChild(creditScene);
 	creditScene.visible = false;
+	
+		// Positioned to the Left of the Menu
+		// Tween in
+		creditScene.position.x = -800;
+		creditScene.position.y = 0;
 	
 	// Game Scene
 	gameScene = new Container();
