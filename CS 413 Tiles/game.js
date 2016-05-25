@@ -160,7 +160,7 @@ function setup(){
 	instructScene.addChild(instructScreen);
 	
 		// Back Button
-		instructBack = new Sprite(id[]);
+		instructBack = new Sprite(id[""]);
 		instructScene.addChild(back);
 		instructBack.anchor.x = 0.5;
 		instructBack.anchor.y = 0.5;
@@ -172,9 +172,23 @@ function setup(){
 	/*******************************************************************************************************
 	Credits Scene 
 	*******************************************************************************************************/	
+	creditScreen = new Sprite (id[""]);
+	creditScene.addChild(creditScreen);
 	
+		// Back Button
+		creditBack = new Sprite(id[""]);
+		creditScene.addChild(creditBack);
+		creditBack.anchor.x = 0.5;
+		creditBack.anchor.y = 0.5;
+		creditBack.position.x = 300;	// Dummy Value
+		creditBack.position.y = 400; 	// Dummuy Value
+		creditBack.interactive = true;
+		creditBack.on('mousedown', backHandler);
 	
-	// Credits Scene
+	/*******************************************************************************************************
+	Game Scene 
+	*******************************************************************************************************/
+
 	
 	// Game Scene
 	
