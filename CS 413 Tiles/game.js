@@ -69,10 +69,56 @@ var player, world;
 Setup Function
 **********************************************************************************************************/
 function setup(){
+	
+	/*******************************************************************************************************
+	Sprite Creation Setup
+	*******************************************************************************************************/
+	// Creating an alias to the texture atlas
+	id = PIXI.loader.resources["images/assets.json"].textures;
+	
 	/*******************************************************************************************************
 	Scene Creations
 	*******************************************************************************************************/
-	// Introduction Scene
+	// Introduction Menu
+	introScene = new Container();
+	stage.addChild(introScene);
+	
+	// How to Play Scene
+	instructScene = new Container();
+	stage.addChild(instructScene);
+	instructScene.visible = false;
+	
+	// Credits Scene
+	creditScene = new Container();
+	stage.addChild(creditScene);
+	creditScene.visible = false;
+	
+	
+	// Game Scene
+	gameScene = new Container();
+	stage.addChild(gameScene);
+	gameScene.visible = false;
+	
+	// Game Over Scene
+	gameOverScene = new Container();
+	stage.addChild(gameOverScene);
+	gameOverScene.visible = false;
+	
+	// Win Scene
+	gameWinScene = new Container();
+	stage.addChild(gameWinScene);
+	gameWinScene.visible = false;
+	
+	
+	/*******************************************************************************************************
+	Introduction Scene 
+	*******************************************************************************************************/
+	introMenu = new Sprite(id[""]);
+	playBut = new Sprite(id[""]);
+	instructBut = new Sprite(id[""]);
+	creditsBut = new Sprite(id[""]);
+	
+	// Introduction Menu
 	
 	// Help Scene
 	
@@ -84,11 +130,7 @@ function setup(){
 	
 	// Win Scene
 	
-	/*******************************************************************************************************
-	Sprite Creation Setup
-	*******************************************************************************************************/
-	// Creating an alias to the texture atlas
-	id = PIXI.loader.resources["images/assets.json"].textures;
+	
 	
 	/*******************************************************************************************************
 	Assigning Music Stuff 
