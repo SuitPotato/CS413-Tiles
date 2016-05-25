@@ -349,9 +349,9 @@ Helper Functions
 	  return key;
 	}
 	
-		/*******************************************************************************************************
+		/***************************************************************************************************
 		Keyboard Control Definitions
-		*******************************************************************************************************/
+		****************************************************************************************************/
 		// Variables storing Ascii keyCodes for WASD keys
 		var up = keyboard(87),	// W
 			down = keyboard(83), // A
@@ -397,5 +397,32 @@ Helper Functions
 		interact.release = function() {
 			
 		}
+		
+	/***************************************************************************************************
+	Move Function
+	****************************************************************************************************/
+	function move(){
+		if (player.direction == MOVE_NONE){
+			player.moving = false;
+			console.log("Stopped");
+			return;
+		}
+		player.moving = true;
+		console.log("Moving");
+		
+		if (player.direction == MOVE_UP) {
+			createjs.Tween.get(player).to({y: player.y - 32}, 500).call(move);
+		}
+		if (player.direction == MOVE_DOWN){
+			createjs.Tween.get(player).to({y: player.y + 32}, 500).call(move);
+		}
+		if (player.direction == MOVE_RIGHT){
+			createjs.Tween.get(player).to({x: player.x + 32}, 500).call(move);
+		}
+		if (player.direction == MOVE_LEFT){
+			createjs.Tween.get(player).to({x: player.x - 32}, 500).call(move);
+		}
+		
+	}
 	
 	
