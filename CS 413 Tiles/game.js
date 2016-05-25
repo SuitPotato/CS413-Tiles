@@ -154,9 +154,24 @@ function setup(){
 		creditsBut.position.y = 200;
 	
 	/*******************************************************************************************************
-	Help Scene 
+	How to Play/Instructions Scene 
 	*******************************************************************************************************/
+	instructScreen = new Sprite(id[""]);
+	instructScene.addChild(instructScreen);
 	
+		// Back Button
+		instructBack = new Sprite(id[]);
+		instructScene.addChild(back);
+		instructBack.anchor.x = 0.5;
+		instructBack.anchor.y = 0.5;
+		instructBack.position.x = 300;		// Dummy Value
+		instructBack.position.y = 400;		// Dummy Value
+		instructBack.interactive = true;
+		instructBack.on('mousedown', backHandler);
+		
+	/*******************************************************************************************************
+	Credits Scene 
+	*******************************************************************************************************/	
 	
 	
 	// Credits Scene
