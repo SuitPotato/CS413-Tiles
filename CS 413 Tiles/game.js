@@ -138,6 +138,8 @@ function setup(){
 		playBut.anchor.y = 0.5;
 		playBut.position.x = 0;
 		playBut.position.y = 0;
+		playBut.interactive = true;
+		playBut.on('mousedown', playHandler)			// No handlers yet
 		
 		// Instruction Button
 		introMenuButtons.addChild(instructBut);
@@ -145,6 +147,9 @@ function setup(){
 		instructBut.anchor.y = 0.5;
 		instructBut.position.x = 50;
 		instructBut.position.y = 100;
+		instructBut.interactive = true;
+		instructBut.on('mousedown',instructHandler);	// No handlers yet
+		
 		
 		// Credits button
 		introMenuButtons.addChild(creditsBut);
@@ -152,6 +157,8 @@ function setup(){
 		creditsBut.anchor.y = 0.5;
 		creditsBut.position.x = 100;
 		creditsBut.position.y = 200;
+		creditsBut.interactive = true;
+		creditsBut.on('mousedown', creditHandler);		// No handlers yet
 	
 	/*******************************************************************************************************
 	How to Play/Instructions Scene 
