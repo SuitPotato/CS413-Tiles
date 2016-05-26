@@ -54,9 +54,9 @@ Loader
 // Load Music, Assets, and Setup
 
 loader
-	.add('map_json', 'map.json')
-	.add('tileset', 'tileset.png')
-	.add('blob', 'blob.png')
+	.add("images/assets.json")
+	.add("map_json", "images/map.json")
+	.add('tileset', 'images/tileset.png')
 	.load(setup);
 	
 /**********************************************************************************************************
@@ -97,8 +97,8 @@ function setup(){
 	
 		// Positioned to Right of the Menu
 		// Tween in
-		instuctScene.position.x = 800;
-		instrucScene.position.y = 0;
+		instructScene.position.x = 800;
+		instructScene.position.y = 0;
 	
 	
 	// Credits Scene
@@ -130,17 +130,17 @@ function setup(){
 	/*******************************************************************************************************
 	Introduction Scene 
 	*******************************************************************************************************/
-	introMenu = new Sprite(id[""]);
-	playBut = new Sprite(id[""]);
-	instructBut = new Sprite(id[""]);
-	creditsBut = new Sprite(id[""]);
+	introMenu = new Sprite(id["Introduction Screen.png"]);
+	playBut = new Sprite(id["New Game Button.png"]);
+	instructBut = new Sprite(id["How to Play Button.png"]);
+	creditsBut = new Sprite(id["Credits Button.png"]);
 	
 	introScene.addChild(introMenu);
 	
 	// Buttons Container
 	var introMenuButtons = new Container();
-	introMenuButtons.position.x = 300;
-	introMenuButtons.position.y = 300;
+	introMenuButtons.position.x = 350;
+	introMenuButtons.position.y = 270;
 	introScene.addChild(introMenuButtons);
 	
 		// Stagger effect
@@ -153,85 +153,88 @@ function setup(){
 		introMenuButtons.addChild(playBut);
 		playBut.anchor.x = 0.5;
 		playBut.anchor.y = 0.5;
-		playBut.position.x = 0;
+		playBut.position.x = -550;
 		playBut.position.y = 0;
+		createjs.Tween.get(playBut.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
 		playBut.interactive = true;
-		playBut.on('mousedown', playHandler)			// No handlers yet
+		playBut.on('mousedown', gameHandler)			
 		
 		// Instruction Button
 		introMenuButtons.addChild(instructBut);
 		instructBut.anchor.x = 0.5;
 		instructBut.anchor.y = 0.5;
-		instructBut.position.x = 50;
-		instructBut.position.y = 100;
+		instructBut.position.x = -550;
+		instructBut.position.y = 120;
+		createjs.Tween.get(instructBut.position).wait(1000).to({x: 50, y: 120}, 1000, createjs.Ease.bounceOut);
 		instructBut.interactive = true;
-		instructBut.on('mousedown',instructHandler);	// No handlers yet
+		instructBut.on('mousedown',instructHandler);	
 		
 		
 		// Credits button
 		introMenuButtons.addChild(creditsBut);
 		creditsBut.anchor.x = 0.5;
 		creditsBut.anchor.y = 0.5;
-		creditsBut.position.x = 100;
-		creditsBut.position.y = 200;
+		creditsBut.position.x = -550;
+		creditsBut.position.y = 240;
+		createjs.Tween.get(creditsBut.position).wait(2000).to({x: 100, y: 240}, 1000, createjs.Ease.bounceOut);
 		creditsBut.interactive = true;
-		creditsBut.on('mousedown', creditHandler);		// No handlers yet
+		creditsBut.on('mousedown', creditHandler);		
 	
 	/*******************************************************************************************************
 	How to Play/Instructions Scene 
 	*******************************************************************************************************/
-	instructScreen = new Sprite(id[""]);
+	instructScreen = new Sprite(id["How to Play Screen.png"]);
 	instructScene.addChild(instructScreen);
 	
 		// Back Button
-		instructBack = new Sprite(id[""]);
-		instructScene.addChild(back);
+		instructBack = new Sprite(id["Back Button.png"]);
+		instructScene.addChild(instructBack);
 		instructBack.anchor.x = 0.5;
 		instructBack.anchor.y = 0.5;
 		instructBack.position.x = 300;		// Dummy Value
 		instructBack.position.y = 400;		// Dummy Value
 		instructBack.interactive = true;
-		instructBack.on('mousedown', backHandler);
+		instructBack.on('mousedown', generalBackHandler);
 		
 	/*******************************************************************************************************
 	Credits Scene 
 	*******************************************************************************************************/	
-	creditScreen = new Sprite (id[""]);
+	creditScreen = new Sprite (id["Credits Screen.png"]);
 	creditScene.addChild(creditScreen);
 	
 		// Back Button
-		creditBack = new Sprite(id[""]);
+		creditBack = new Sprite(id["Back Button.png"]);
 		creditScene.addChild(creditBack);
 		creditBack.anchor.x = 0.5;
 		creditBack.anchor.y = 0.5;
 		creditBack.position.x = 300;	// Dummy Value
 		creditBack.position.y = 400; 	// Dummuy Value
 		creditBack.interactive = true;
-		creditBack.on('mousedown', backHandler);
+		creditBack.on('mousedown', generalBackHandler);
 	
 	/*******************************************************************************************************
 	Game Scene 
 	*******************************************************************************************************/
-	gameScreen = new Sprite(id[""]);
+	gameScreen = new Sprite(id["Game Screen.png"]);
 	gameScene.addChild(gameScreen);
 	
-	var tu = new TileUtilities(PIXI);
-	world = tu.makeTiledWorld("map_json", "tileset.png");
-	gameScene.addChild(world);
+	//var tu = new TileUtilities(PIXI);
+	//world = tu.makeTiledWorld("map_json", "tileset.png");
+	//gameScene.addChild(world);
 	
-	var character = world.getObject("playerCharacter");
+	//var character = world.getObject("playerCharacter");
 	
 	/*******************************************************************************************************
 	Game Over Scene 
 	*******************************************************************************************************/
-	gameOverScreen = new Sprite(id[""]);
+	gameOverScreen = new Sprite(id["Introduction Screen.png"]);			// Dummy Sprite
 	gameOverScene.addChild(gameOverScreen);
 	
 	
 	/*******************************************************************************************************
 	Win Scene 
 	*******************************************************************************************************/
-	gameWinScreen = new Sprite(id[""]);
+	gameWinScreen = new Sprite(id["Introduction Screen.png"]);				// Dummy Sprite
 	gameWinScene.addChild(gameOverScreen)
 	
 	/*******************************************************************************************************
@@ -256,6 +259,9 @@ function gameLoop() {
 State Functions
 **********************************************************************************************************/
 
+function introduction() {
+
+}
 
 /**********************************************************************************************************
 Handlers
@@ -273,9 +279,14 @@ Handlers
 	/*******************************************************************************************************
 	How to Play/Instructions Handler
 	*******************************************************************************************************/
-	function helpHandler(e){
+	function instructHandler(e){
 		introScene.visible = false;
 		instructScene.visible = true;
+		
+		introScene.position.y = -800;
+		
+		createjs.Tween.get(instructScene.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
+		
 	}
 	
 	/*******************************************************************************************************
@@ -284,16 +295,25 @@ Handlers
 	function creditHandler(e){
 		introScene.visible = false;
 		creditScene.visible = true;
+		
+		introScene.position.y = -800;
+		createjs.Tween.get(creditScene.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
 	}
 	
 	/*******************************************************************************************************
 	General Back Handler
 	*******************************************************************************************************/
 	// Going back in the main menu
-	function generalBackHandler{
+	function generalBackHandler(e){
 		introScene.visible = true;
 		instructScene.visible = false;
 		creditScene.visible = false;
+		
+		instructScene.position.x = 800;
+		creditScene.position.x = -800;
+		
+		createjs.Tween.get(introScene.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
+		
 	}
 
 /**********************************************************************************************************
