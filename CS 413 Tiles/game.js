@@ -55,8 +55,10 @@ Loader
 
 loader
 	.add("images/assets.json")
-	.add("map_json", "images/map.json")
-	.add('tileset', 'images/tileset.png')
+	
+	.add('Images/map.json')
+	.add('Images/tileset.png')
+	
 	.add("Audio/Back.wav")
 	.add("Audio/Credits Tween.wav")
 	.add("Audio/Hit.wav")
@@ -230,14 +232,11 @@ function setup(){
 	/*******************************************************************************************************
 	Game Scene 
 	*******************************************************************************************************/
-	gameScreen = new Sprite(id["Game Screen.png"]);
-	gameScene.addChild(gameScreen);
+	var tu = new TileUtilities(PIXI);
+	world = tu.makeTiledWorld('Images/map.json', "Images/tileset.png");
+	gameScene.addChild(world);
 	
-	//var tu = new TileUtilities(PIXI);
-	//world = tu.makeTiledWorld("map_json", "tileset.png");
-	//gameScene.addChild(world);
-	
-	//var character = world.getObject("playerCharacter");
+	var character = world.getObject("playerCharacter");
 	
 	/*******************************************************************************************************
 	Game Over Scene 
