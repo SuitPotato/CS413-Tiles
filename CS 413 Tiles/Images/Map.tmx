@@ -173,7 +173,7 @@
 </data>
  </layer>
  <objectgroup name="Entities">
-  <object id="155" x="192" y="1376" width="32" height="32"/>
+  <object id="155" name="playerCharacter" x="192" y="1376" width="32" height="32"/>
  </objectgroup>
  <layer name="Above" width="100" height="50">
   <data encoding="csv">
