@@ -58,15 +58,15 @@ PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 loader
 	.add("images/assets.json")
 	
-	.add('Images/map.json')
-	.add('Images/tileset.png')
+	.add('images/map.json')
+	.add('images/tileset.png')
 	
-	.add("Audio/Back.wav")
-	.add("Audio/Credits Tween.wav")
-	.add("Audio/Hit.wav")
-	.add("Audio/How to Play Tween.wav")
-	.add("Audio/Play Tween.wav")
-	.add("Audio/Select.wav")
+	.add("audio/Back.wav")
+	.add("audio/Credits Tween.wav")
+	.add("audio/Hit.wav")
+	.add("audio/How to Play Tween.wav")
+	.add("audio/Play Tween.wav")
+	.add("audio/Select.wav")
 	.load(setup);
 	
 /**********************************************************************************************************
@@ -75,7 +75,7 @@ Global Variables
 
 var player, world, character;
 var backSound, creditsTweenSound, hitSound, instructSound, playSound, selectSound;
-var tu, wallLayer, collisionLayer, collisionGidLayer;
+var tu, wallLayer;
 /**********************************************************************************************************
 Setup Function
 **********************************************************************************************************/
@@ -91,12 +91,12 @@ function setup(){
 	Assigning Music Stuff 
 	*******************************************************************************************************/
 	
-	backSound = PIXI.audioManager.getAudio("Audio/Back.wav");
-	creditsTweenSound = PIXI.audioManager.getAudio("Audio/Credits Tween.wav");
-	hitSound = PIXI.audioManager.getAudio("Audio/Hit.wav");
-	instructSound = PIXI.audioManager.getAudio("Audio/How to Play Tween.wav");
-	playSound = PIXI.audioManager.getAudio("Audio/Play Tween.wav");
-	selectSound = PIXI.audioManager.getAudio("Audio/Select.wav");
+	backSound = PIXI.audioManager.getAudio("audio/Back.wav");
+	creditsTweenSound = PIXI.audioManager.getAudio("audio/Credits Tween.wav");
+	hitSound = PIXI.audioManager.getAudio("audio/Hit.wav");
+	instructSound = PIXI.audioManager.getAudio("audio/How to Play Tween.wav");
+	playSound = PIXI.audioManager.getAudio("audio/Play Tween.wav");
+	selectSound = PIXI.audioManager.getAudio("audio/Select.wav");
 	
 	
 	/*******************************************************************************************************
@@ -235,8 +235,8 @@ function setup(){
 	/*******************************************************************************************************
 	Game Scene 
 	*******************************************************************************************************/
-	var tu = new TileUtilities(PIXI);
-	world = tu.makeTiledWorld('Images/map.json', "Images/tileset.png");
+	tu = new TileUtilities(PIXI);
+	world = tu.makeTiledWorld('images/map.json', "images/tileset.png");
 	gameScene.addChild(world);
 	
 	var character = world.getObject("playerCharacter");
@@ -250,10 +250,8 @@ function setup(){
 	var entityLayer = world.getObject("Entities");
 	entityLayer.addChild(player);
 	
+	wallLayer = world.getObject("Walls").data;
 	
-	
-	var collisionLayer = world.getObject("Collision");
-	var collisionGidLayer = world.getObject("Collision").data;
 	
 	player.direction = MOVE_NONE;
 	player.moving = false;
@@ -520,8 +518,12 @@ Helper Functions
 	
 	function contain(){
 		
-		playerOnFloor = tu.hitTestTile(character, collisionLayer, 0, world, "every");
-		console.log(playerOnFloor);
+		// player is the sprite
+		// wallLayer is all of the GID values for walls
+		// need to create an array to loop through for all gid values 1,2,3,7,9
+				
+		playerOnFloor = tu.hitTestTile(player, wallLayer, 1, world, "every");
+		console.log(playerOnFloor.hit);
 	}
 	
 	
