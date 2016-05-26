@@ -6,9 +6,6 @@
 
 */
 
-
-
-
 /**********************************************************************************************************
 Game Global Variables/Constants
 **********************************************************************************************************/
@@ -57,6 +54,9 @@ Loader
 // Load Music, Assets, and Setup
 
 loader
+	.add('map_json', 'map.json')
+	.add('tileset', 'tileset.png')
+	.add('blob', 'blob.png')
 	.load(setup);
 	
 /**********************************************************************************************************
@@ -215,6 +215,12 @@ function setup(){
 	gameScreen = new Sprite(id[""]);
 	gameScene.addChild(gameScreen);
 	
+	var tu = new TileUtilities(PIXI);
+	world = tu.makeTiledWorld("map_json", "tileset.png");
+	gameScene.addChild(world);
+	
+	var character = world.getObject("playerCharacter");
+	
 	/*******************************************************************************************************
 	Game Over Scene 
 	*******************************************************************************************************/
@@ -289,6 +295,7 @@ Handlers
 		instructScene.visible = false;
 		creditScene.visible = false;
 	}
+
 /**********************************************************************************************************
 Helper Functions
 **********************************************************************************************************/
@@ -296,6 +303,7 @@ Helper Functions
 	/**********************************************************************************************************
 	Keyboard Function
 	**********************************************************************************************************/
+	/*
 	// Keyboard function to support general Ascii Key Codes function creation
 	function keyboard(keyCode) {
 		// Empty Key Object
@@ -348,10 +356,11 @@ Helper Functions
 	  );
 	  return key;
 	}
-	
+	*/
 		/***************************************************************************************************
 		Keyboard Control Definitions
 		****************************************************************************************************/
+	/*
 		// Variables storing Ascii keyCodes for WASD keys
 		var up = keyboard(87),	// W
 			down = keyboard(83), // A
@@ -360,34 +369,38 @@ Helper Functions
 			interact = keyboard(69); // E
 			
 		up.press = function() {
-			
+			player.direction = MOVE_UP;
+			move();
 		}
 		
 		up.release = function() {
-			
+			player.direction = MOVE_NONE;
 		}
 		
 		down.press = function() {
-			
+			player.direction = MOVE_DOWN;
+			move();
 		}
 		
 		down.release = function() {
-			
+			player.direction = MOVE_NONE;
 		}
 		left.press = function() {
-			
+			player.direction = MOVE_LEFT;
+			move();
 		}
 		
 		left.release = function() {
-			
+			player.direction = MOVE_NONE;
 		}
 		
 		right.press = function() {
-			
+			player.direction = MOVE_RIGHT;
+			move();
 		}
 		
 		right.release = function() {
-			
+			player.direction = MOVE_NONE;
 		}
 		
 		interact.press = function() {
@@ -398,9 +411,12 @@ Helper Functions
 			
 		}
 		
+	*/	
+		
 	/***************************************************************************************************
 	Move Function
 	****************************************************************************************************/
+	/*
 	function move(){
 		if (player.direction == MOVE_NONE){
 			player.moving = false;
@@ -424,5 +440,5 @@ Helper Functions
 		}
 		
 	}
-	
+	*/
 	
