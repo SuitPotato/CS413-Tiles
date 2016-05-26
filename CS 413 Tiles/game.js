@@ -73,8 +73,9 @@ loader
 Global Variables
 **********************************************************************************************************/	
 
-var player, world;
+var player, world, character;
 var backSound, creditsTweenSound, hitSound, instructSound, playSound, selectSound;
+var tu, wallLayer, collisionLayer, collisionGidLayer;
 /**********************************************************************************************************
 Setup Function
 **********************************************************************************************************/
@@ -249,6 +250,11 @@ function setup(){
 	var entityLayer = world.getObject("Entities");
 	entityLayer.addChild(player);
 	
+	
+	
+	var collisionLayer = world.getObject("Collision");
+	var collisionGidLayer = world.getObject("Collision").data;
+	
 	player.direction = MOVE_NONE;
 	player.moving = false;
 	/*******************************************************************************************************
@@ -293,6 +299,7 @@ function introduction() {
 
 function game() {
 	updateCamera();
+	contain();
 }
 
 /**********************************************************************************************************
@@ -479,16 +486,16 @@ Helper Functions
 		//console.log("Moving");
 		
 		if (player.direction == MOVE_UP) {
-			createjs.Tween.get(player).to({y: player.y - 32}, 500).call(move);
+			createjs.Tween.get(player).to({y: player.y - 32}, 250).call(move);
 		}
 		if (player.direction == MOVE_DOWN){
-			createjs.Tween.get(player).to({y: player.y + 32}, 500).call(move);
+			createjs.Tween.get(player).to({y: player.y + 32}, 250).call(move);
 		}
 		if (player.direction == MOVE_RIGHT){
-			createjs.Tween.get(player).to({x: player.x + 32}, 500).call(move);
+			createjs.Tween.get(player).to({x: player.x + 32}, 250).call(move);
 		}
 		if (player.direction == MOVE_LEFT){
-			createjs.Tween.get(player).to({x: player.x - 32}, 500).call(move);
+			createjs.Tween.get(player).to({x: player.x - 32}, 250).call(move);
 		}
 		
 	}
@@ -500,10 +507,22 @@ Helper Functions
 	function updateCamera(){
 		stage.x = -player.x*GAME_SCALE + GAME_WIDTH/2 - player.width/2*GAME_SCALE;
 		stage.y = -player.y*GAME_SCALE + GAME_HEIGHT/2 + player.height/2*GAME_SCALE;
-		console.log(stage.x);
-		console.log(-player.x);
-		console.log(-player.width);
+		//console.log(stage.x);
+		//console.log(-player.x);
+		//console.log(-player.width);
 		stage.x = -Math.max(0, Math.min(world.worldWidth*GAME_SCALE - GAME_WIDTH, -stage.x));
 		stage.y = -Math.max(0, Math.min(world.worldHeight*GAME_SCALE - GAME_HEIGHT, -stage.y));
 	}
+	
+	/***************************************************************************************************
+	Contain Function
+	****************************************************************************************************/
+	
+	function contain(){
+		
+		playerOnFloor = tu.hitTestTile(character, collisionLayer, 0, world, "every");
+		console.log(playerOnFloor);
+	}
+	
+	
 	
