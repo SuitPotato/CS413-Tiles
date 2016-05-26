@@ -1362,11 +1362,11 @@
         {
          "columns":2,
          "firstgid":1,
-         "image":"Tile Sheet\/tilesheet.png",
+         "image":"tileset.png",
          "imageheight":192,
          "imagewidth":64,
          "margin":0,
-         "name":"Tilesheet",
+         "name":"Tileset",
          "spacing":0,
          "tilecount":12,
          "tileheight":32,
