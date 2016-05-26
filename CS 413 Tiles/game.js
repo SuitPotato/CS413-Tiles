@@ -11,7 +11,7 @@ Game Global Variables/Constants
 **********************************************************************************************************/
 var GAME_WIDTH = 800;
 var GAME_HEIGHT = 600;
-var GAME_SCALE = 4;
+var GAME_SCALE = 1;
 
 var MOVE_LEFT = 1;
 var MOVE_RIGHT = 2;
@@ -52,6 +52,8 @@ gameport.appendChild(renderer.view);
 Loader
 **********************************************************************************************************/	
 // Load Music, Assets, and Setup
+
+PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 
 loader
 	.add("images/assets.json")
@@ -237,7 +239,18 @@ function setup(){
 	gameScene.addChild(world);
 	
 	var character = world.getObject("playerCharacter");
+	player = new PIXI.Sprite(id["dumbChar.png"]);
 	
+	player.x = character.x;
+	player.y = character.y;
+	player.anchor.x = 0.5;
+	player.anchor.y = 0.5;
+	
+	var entityLayer = world.getObject("Entities");
+	entityLayer.addChild(player);
+	
+	player.direction = MOVE_NONE;
+	player.moving = false;
 	/*******************************************************************************************************
 	Game Over Scene 
 	*******************************************************************************************************/
@@ -266,6 +279,7 @@ function gameLoop() {
 	requestAnimationFrame(gameLoop);
 	state();
 	renderer.render(stage);
+	
 }
 
 
@@ -277,6 +291,10 @@ function introduction() {
 
 }
 
+function game() {
+	updateCamera();
+}
+
 /**********************************************************************************************************
 Handlers
 **********************************************************************************************************/
@@ -286,7 +304,7 @@ Handlers
 	*******************************************************************************************************/
 	function gameHandler(e){
 		introScene.visible = false;
-		//state = game;
+		state = game;
 		gameScene.visible = true;
 	}
 	
@@ -337,7 +355,7 @@ Helper Functions
 	/**********************************************************************************************************
 	Keyboard Function
 	**********************************************************************************************************/
-	/*
+	
 	// Keyboard function to support general Ascii Key Codes function creation
 	function keyboard(keyCode) {
 		// Empty Key Object
@@ -390,11 +408,11 @@ Helper Functions
 	  );
 	  return key;
 	}
-	*/
+	
 		/***************************************************************************************************
 		Keyboard Control Definitions
 		****************************************************************************************************/
-	/*
+	
 		// Variables storing Ascii keyCodes for WASD keys
 		var up = keyboard(87),	// W
 			down = keyboard(83), // A
@@ -445,20 +463,20 @@ Helper Functions
 			
 		}
 		
-	*/	
+	
 		
 	/***************************************************************************************************
 	Move Function
 	****************************************************************************************************/
-	/*
+	
 	function move(){
 		if (player.direction == MOVE_NONE){
 			player.moving = false;
-			console.log("Stopped");
+			//console.log("Stopped");
 			return;
 		}
 		player.moving = true;
-		console.log("Moving");
+		//console.log("Moving");
 		
 		if (player.direction == MOVE_UP) {
 			createjs.Tween.get(player).to({y: player.y - 32}, 500).call(move);
@@ -474,5 +492,18 @@ Helper Functions
 		}
 		
 	}
-	*/
+	
+	
+	/***************************************************************************************************
+	Update Camera Function
+	****************************************************************************************************/
+	function updateCamera(){
+		stage.x = -player.x*GAME_SCALE + GAME_WIDTH/2 - player.width/2*GAME_SCALE;
+		stage.y = -player.y*GAME_SCALE + GAME_HEIGHT/2 + player.height/2*GAME_SCALE;
+		console.log(stage.x);
+		console.log(-player.x);
+		console.log(-player.width);
+		stage.x = -Math.max(0, Math.min(world.worldWidth*GAME_SCALE - GAME_WIDTH, -stage.x));
+		stage.y = -Math.max(0, Math.min(world.worldHeight*GAME_SCALE - GAME_HEIGHT, -stage.y));
+	}
 	
