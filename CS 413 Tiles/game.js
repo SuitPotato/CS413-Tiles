@@ -57,6 +57,12 @@ loader
 	.add("images/assets.json")
 	.add("map_json", "images/map.json")
 	.add('tileset', 'images/tileset.png')
+	.add("Audio/Back.wav")
+	.add("Audio/Credits Tween.wav")
+	.add("Audio/Hit.wav")
+	.add("Audio/How to Play Tween.wav")
+	.add("Audio/Play Tween.wav")
+	.add("Audio/Select.wav")
 	.load(setup);
 	
 /**********************************************************************************************************
@@ -64,7 +70,7 @@ Global Variables
 **********************************************************************************************************/	
 
 var player, world;
-
+var backSound, creditsTweenSound, hitSound, instructSound, playSound, selectSound;
 /**********************************************************************************************************
 Setup Function
 **********************************************************************************************************/
@@ -80,7 +86,13 @@ function setup(){
 	Assigning Music Stuff 
 	*******************************************************************************************************/
 	
-	// PLACE MUSIC FILES HERE
+	backSound = PIXI.audioManager.getAudio("Audio/Back.wav");
+	creditsTweenSound = PIXI.audioManager.getAudio("Audio/Credits Tween.wav");
+	hitSound = PIXI.audioManager.getAudio("Audio/Hit.wav");
+	instructSound = PIXI.audioManager.getAudio("Audio/How to Play Tween.wav");
+	playSound = PIXI.audioManager.getAudio("Audio/Play Tween.wav");
+	selectSound = PIXI.audioManager.getAudio("Audio/Select.wav");
+	
 	
 	/*******************************************************************************************************
 	Scene Creations
@@ -156,6 +168,7 @@ function setup(){
 		playBut.position.x = -550;
 		playBut.position.y = 0;
 		createjs.Tween.get(playBut.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
+		playSound.play();
 		playBut.interactive = true;
 		playBut.on('mousedown', gameHandler)			
 		
@@ -165,7 +178,8 @@ function setup(){
 		instructBut.anchor.y = 0.5;
 		instructBut.position.x = -550;
 		instructBut.position.y = 120;
-		createjs.Tween.get(instructBut.position).wait(1000).to({x: 50, y: 120}, 1000, createjs.Ease.bounceOut);
+		createjs.Tween.get(instructBut.position).wait(500).to({x: 50, y: 120}, 1000, createjs.Ease.bounceOut);
+			setTimeout(function(){instructSound.play();}, 750);
 		instructBut.interactive = true;
 		instructBut.on('mousedown',instructHandler);	
 		
@@ -176,7 +190,8 @@ function setup(){
 		creditsBut.anchor.y = 0.5;
 		creditsBut.position.x = -550;
 		creditsBut.position.y = 240;
-		createjs.Tween.get(creditsBut.position).wait(2000).to({x: 100, y: 240}, 1000, createjs.Ease.bounceOut);
+		createjs.Tween.get(creditsBut.position).wait(1000).to({x: 100, y: 240}, 1000, createjs.Ease.bounceOut);
+			setTimeout(function(){creditsTweenSound.play();}, 1250);
 		creditsBut.interactive = true;
 		creditsBut.on('mousedown', creditHandler);		
 	
@@ -282,7 +297,7 @@ Handlers
 	function instructHandler(e){
 		introScene.visible = false;
 		instructScene.visible = true;
-		
+		selectSound.play();
 		introScene.position.y = -800;
 		
 		createjs.Tween.get(instructScene.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
@@ -295,7 +310,7 @@ Handlers
 	function creditHandler(e){
 		introScene.visible = false;
 		creditScene.visible = true;
-		
+		selectSound.play();
 		introScene.position.y = -800;
 		createjs.Tween.get(creditScene.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
 	}
@@ -308,7 +323,7 @@ Handlers
 		introScene.visible = true;
 		instructScene.visible = false;
 		creditScene.visible = false;
-		
+		backSound.play();
 		instructScene.position.x = 800;
 		creditScene.position.x = -800;
 		
