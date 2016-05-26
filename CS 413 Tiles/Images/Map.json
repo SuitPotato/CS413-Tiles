@@ -29,14 +29,14 @@
          "objects":[
                 {
                  "height":32,
-                 "id":155,
+                 "id":330,
                  "name":"playerCharacter",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":192,
-                 "y":1376
+                 "x":608,
+                 "y":352
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1410,7 +1410,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":330,
+ "nextobjectid":331,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,

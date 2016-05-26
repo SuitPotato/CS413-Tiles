@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="330">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="331">
  <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32" tilecount="12" columns="2">
   <image source="tileset.png" width="64" height="192"/>
   <tile id="0">
@@ -173,7 +173,7 @@
 </data>
  </layer>
  <objectgroup name="Entities">
-  <object id="155" name="playerCharacter" x="192" y="1376" width="32" height="32"/>
+  <object id="330" name="playerCharacter" x="608" y="352" width="32" height="32"/>
  </objectgroup>
  <layer name="Above" width="100" height="50">
   <data encoding="csv">
