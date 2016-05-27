@@ -1,23 +1,19 @@
-/* TODO
-
-1. Menu Setup 
-2. Game Setup
-
-
-*/
 
 /**********************************************************************************************************
-Game Global Variables/Constants
+Game Global Constants
 **********************************************************************************************************/
 var GAME_WIDTH = 800;
 var GAME_HEIGHT = 600;
 var GAME_SCALE = 1;
 
+// Character movement Constants
 var MOVE_LEFT = 1;
 var MOVE_RIGHT = 2;
 var MOVE_UP = 3;
 var MOVE_DOWN = 4;
 var MOVE_NONE = 0;
+
+PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 
 /**********************************************************************************************************
 Attaching to Gameport
@@ -51,17 +47,11 @@ gameport.appendChild(renderer.view);
 /**********************************************************************************************************
 Loader
 **********************************************************************************************************/	
-// Load Music, Assets, and Setup
-
-PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
-
 loader
-	.add("images/assets.json")
-	
-	.add('images/map.json')
-	.add('images/tileset.png')
-	
-	.add("audio/Bump.wav")
+	.add("images/assets.json")		// Assets
+	.add('images/map.json')			// map.json file
+	.add('images/tileset.png')		// Tileset
+	.add("audio/Bump.wav")			// Audio files 
 	.add("audio/Back.wav")
 	.add("audio/Credits Tween.wav")
 	.add("audio/Hit.wav")
@@ -73,8 +63,7 @@ loader
 /**********************************************************************************************************
 Global Variables
 **********************************************************************************************************/	
-
-var player, world, character;
+var player, world, character;	// 
 var backSound, creditsTweenSound, hitSound, instructSound, playSound, selectSound;
 var tu, wallLayer, floorLayer;
 /**********************************************************************************************************
@@ -91,21 +80,17 @@ function setup(){
 	/*******************************************************************************************************
 	Assigning Music Stuff 
 	*******************************************************************************************************/
-	
 	backSound = PIXI.audioManager.getAudio("audio/Back.wav");
 	creditsTweenSound = PIXI.audioManager.getAudio("audio/Credits Tween.wav");
 	// hitSound = PIXI.audioManager.getAudio("audio/Hit.wav");
 	instructSound = PIXI.audioManager.getAudio("audio/How to Play Tween.wav");
 	playSound = PIXI.audioManager.getAudio("audio/Play Tween.wav");
 	selectSound = PIXI.audioManager.getAudio("audio/Select.wav");
-	bumpSound = PIXI.audioManager.getAudio("audio/Bump.wav")
-	
-	
+	bumpSound = PIXI.audioManager.getAudio("audio/Bump.wav"
 	/*******************************************************************************************************
 	Scene Creations
 	*******************************************************************************************************/
 	// Introduction Menu
-	
 	introScene = new Container();
 	stage.addChild(introScene);
 	
@@ -118,7 +103,6 @@ function setup(){
 		// Tween in
 		instructScene.position.x = 800;
 		instructScene.position.y = 0;
-	
 	
 	// Credits Scene
 	creditScene = new Container();
@@ -145,15 +129,16 @@ function setup(){
 	stage.addChild(gameWinScene);
 	gameWinScene.visible = false;
 	
-	
 	/*******************************************************************************************************
 	Introduction Scene 
 	*******************************************************************************************************/
+	// Menu + Buttons
 	introMenu = new Sprite(id["Introduction Screen.png"]);
 	playBut = new Sprite(id["New Game Button.png"]);
 	instructBut = new Sprite(id["How to Play Button.png"]);
 	creditsBut = new Sprite(id["Credits Button.png"]);
 	
+	// Add introScene
 	introScene.addChild(introMenu);
 	
 	// Buttons Container
@@ -174,7 +159,7 @@ function setup(){
 		playBut.anchor.y = 0.5;
 		playBut.position.x = -550;
 		playBut.position.y = 0;
-		createjs.Tween.get(playBut.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
+		createjs.Tween.get(playBut.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);	
 		playSound.play();
 		playBut.interactive = true;
 		playBut.on('mousedown', gameHandler)			
@@ -238,21 +223,24 @@ function setup(){
 	/*******************************************************************************************************
 	Game Scene 
 	*******************************************************************************************************/
-	tu = new TileUtilities(PIXI);
-	world = tu.makeTiledWorld('images/map.json', "images/tileset.png");
-	gameScene.addChild(world);
+	tu = new TileUtilities(PIXI);	// Tile Utilities Variable
+	world = tu.makeTiledWorld('images/map.json', "images/tileset.png");		// Creating the world
+	gameScene.addChild(world);		// Adding to the gameScene
 	
-	var character = world.getObject("playerCharacter");
-	player = new PIXI.Sprite(id["standDown.png"]);
+	var character = world.getObject("playerCharacter");	// Grabbing the character Object
+	player = new PIXI.Sprite(id["standDown.png"]);		// Adding Character Sprite
 	
+	// Player Values
 	player.x = character.x;
 	player.y = character.y;
 	player.anchor.x = 0;
 	player.anchor.y = 0;
 	
+	// Entity Layer + adding player to the layer
 	var entityLayer = world.getObject("Entities");
 	entityLayer.addChild(player);
 	
+	// Gid Values
 	wallLayer = world.getObject("Walls").data;
 	floorLayer = world.getObject("Floor").data;
 	
@@ -295,9 +283,7 @@ function gameLoop() {
 State Functions
 **********************************************************************************************************/
 
-function introduction() {
-
-}
+function introduction() {}
 
 function game() {
 	updateCamera();
@@ -329,7 +315,7 @@ Handlers
 		introScene.position.y = -800;
 		
 		createjs.Tween.get(instructScene.position).to({x: 0, y: 0}, 1000, createjs.Ease.bounceOut);
-		
+	
 	}
 	
 	/*******************************************************************************************************
@@ -429,9 +415,12 @@ Helper Functions
 			down = keyboard(83), // A
 			left = keyboard(65), // S
 			right = keyboard(68); // D
-			
+		
+		// Restrict keys so multiple movements aren't made
+		// otherwise move the specific direction
+		
 		up.press = function(){
-			if(down.isDown || right.isDown || left.isDown)
+			if(down.isDown || right.isDown || left.isDown)	
 				player.direction = MOVE_NONE;
 			else {
 				player.direction = MOVE_UP;
@@ -497,11 +486,11 @@ Helper Functions
 		if (player.direction == MOVE_NONE){
 			player.moving = false;
 			tweenFix();
-			//console.log("Stopped");
+			
 			return;
 		}
 		player.moving = true;
-		//console.log("Moving");
+		
 		
 		if (player.direction == MOVE_UP){
 			createjs.Tween.get(player).to({y: player.y - 32}, 200).call(move);
@@ -546,11 +535,10 @@ Helper Functions
 	Update Camera Function
 	****************************************************************************************************/
 	function updateCamera(){
+		
+		// Updates the gameScene based on camera location
 		gameScene.x = -player.x*GAME_SCALE + GAME_WIDTH/2 - player.width/2*GAME_SCALE;
 		gameScene.y = -player.y*GAME_SCALE + GAME_HEIGHT/2 + player.height/2*GAME_SCALE;
-		//console.log(stage.x);
-		//console.log(-player.x);
-		//console.log(-player.width);
 		gameScene.x = -Math.max(0, Math.min(world.worldWidth*GAME_SCALE - GAME_WIDTH, -gameScene.x));
 		gameScene.y = -Math.max(0, Math.min(world.worldHeight*GAME_SCALE - GAME_HEIGHT, -gameScene.y));
 	}
@@ -561,9 +549,7 @@ Helper Functions
 	
 	function contain(){
 		
-		// player is the sprite
-		// wallLayer is all of the GID values for walls
-		// need to create an array to loop through for all gid values 1,2,3,7,9
+		// Contains the player and checks to see if the player is on the floor
 		var playerOnFloor;
 		
 		if ((tu.hitTestTile(player, floorLayer, 8, world, "some")).hit == true) {
@@ -609,6 +595,8 @@ Helper Functions
 	/***************************************************************************************************
 	Tween Fix Function
 	****************************************************************************************************/
+	// Problem with the tween is that it can get off easily and cause other issues with collision
+	// Forces the player back in the correct position when standing still
 	function tweenFix(){
 		if (player.x % 32 != 0){
 			console.log("I'm off!: x");
