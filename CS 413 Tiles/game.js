@@ -86,7 +86,7 @@ function setup(){
 	instructSound = PIXI.audioManager.getAudio("audio/How to Play Tween.wav");
 	playSound = PIXI.audioManager.getAudio("audio/Play Tween.wav");
 	selectSound = PIXI.audioManager.getAudio("audio/Select.wav");
-	bumpSound = PIXI.audioManager.getAudio("audio/Bump.wav"
+	bumpSound = PIXI.audioManager.getAudio("audio/Bump.wav");
 	/*******************************************************************************************************
 	Scene Creations
 	*******************************************************************************************************/
@@ -257,7 +257,7 @@ function setup(){
 	/*******************************************************************************************************
 	Win Scene 
 	*******************************************************************************************************/
-	gameWinScreen = new Sprite(id["Introduction Screen.png"]);				
+	gameWinScreen = new Sprite(id["Win Screen.png"]);				
 	gameWinScene.addChild(gameOverScreen)
 	
 	/*******************************************************************************************************
