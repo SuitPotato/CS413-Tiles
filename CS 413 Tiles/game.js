@@ -75,7 +75,7 @@ Global Variables
 
 var player, world, character;
 var backSound, creditsTweenSound, hitSound, instructSound, playSound, selectSound;
-var tu, wallLayer;
+var tu, wallLayer, floorLayer;
 /**********************************************************************************************************
 Setup Function
 **********************************************************************************************************/
@@ -244,13 +244,14 @@ function setup(){
 	
 	player.x = character.x;
 	player.y = character.y;
-	player.anchor.x = 0.5;
-	player.anchor.y = 0.5;
+	player.anchor.x = 0;
+	player.anchor.y = 0;
 	
 	var entityLayer = world.getObject("Entities");
 	entityLayer.addChild(player);
 	
 	wallLayer = world.getObject("Walls").data;
+	floorLayer = world.getObject("Floor").data;
 	
 	
 	player.direction = MOVE_NONE;
@@ -298,6 +299,7 @@ function introduction() {
 function game() {
 	updateCamera();
 	contain();
+	
 }
 
 /**********************************************************************************************************
@@ -423,93 +425,129 @@ Helper Functions
 			down = keyboard(83), // A
 			left = keyboard(65), // S
 			right = keyboard(68); // D
-			interact = keyboard(69); // E
 			
-		up.press = function() {
-			player.direction = MOVE_UP;
-			move();
+		up.press = function(){
+			if(down.isDown || right.isDown || left.isDown)
+				player.direction = MOVE_NONE;
+			else {
+				player.direction = MOVE_UP;
+				move();
+			}
 		}
 		
 		up.release = function() {
-			player.direction = MOVE_NONE;
+			if(!down.isDown)
+				player.direction = MOVE_NONE;
 		}
 		
 		down.press = function() {
-			player.direction = MOVE_DOWN;
-			move();
+			if(up.isDown || right.isDown || left.isDown)
+				player.direction = MOVE_NONE;
+			else{
+				player.direction = MOVE_DOWN;
+				move();
+			}
 		}
 		
 		down.release = function() {
-			player.direction = MOVE_NONE;
+			if(!up.isDown)
+				player.direction = MOVE_NONE;
 		}
 		left.press = function() {
+			if(down.isDown || right.isDown || up.isDown)
+				player.direction = MOVE_NONE;
+			else{
 			player.direction = MOVE_LEFT;
 			move();
+			}
 		}
 		
 		left.release = function() {
-			player.direction = MOVE_NONE;
+			
+			if(!right.isDown)
+				player.direction = MOVE_NONE;
 		}
 		
 		right.press = function() {
-			player.direction = MOVE_RIGHT;
-			move();
+			if(down.isDown || up.isDown || left.isDown)
+				player.direction = MOVE_NONE;
+			else{
+				player.direction = MOVE_RIGHT;
+				move();
+			}
 		}
 		
 		right.release = function() {
-			player.direction = MOVE_NONE;
+			if(!left.isDown)
+				player.direction = MOVE_NONE;
 		}
-		
-		interact.press = function() {
 			
-		}
-		
-		interact.release = function() {
-			
-		}
-		
 	
 		
 	/***************************************************************************************************
 	Move Function
 	****************************************************************************************************/
-	
 	function move(){
+		
+		
 		if (player.direction == MOVE_NONE){
 			player.moving = false;
+			tweenFix();
 			//console.log("Stopped");
 			return;
 		}
 		player.moving = true;
 		//console.log("Moving");
 		
-		if (player.direction == MOVE_UP) {
-			createjs.Tween.get(player).to({y: player.y - 32}, 250).call(move);
-		}
+		if (player.direction == MOVE_UP){
+			createjs.Tween.get(player).to({y: player.y - 32}, 200).call(move);
+			setTimeout(function(){
+				if (contain() != true){
+					createjs.Tween.get(player).to({y: player.y + 32}, 0).call(move);
+				}
+			}, 250);
+		}	
 		if (player.direction == MOVE_DOWN){
-			createjs.Tween.get(player).to({y: player.y + 32}, 250).call(move);
+			createjs.Tween.get(player).to({y: player.y + 32}, 200).call(move);
+			setTimeout(function(){
+				if (contain() != true){
+					createjs.Tween.get(player).to({y: player.y - 32}, 0).call(move);
+				}
+			}, 250);
 		}
 		if (player.direction == MOVE_RIGHT){
-			createjs.Tween.get(player).to({x: player.x + 32}, 250).call(move);
+			createjs.Tween.get(player).to({x: player.x + 32}, 200).call(move);
+			setTimeout(function(){
+				if (contain() != true){
+					createjs.Tween.get(player).to({x: player.x - 32}, 0).call(move);
+				}
+			}, 250);
 		}
 		if (player.direction == MOVE_LEFT){
-			createjs.Tween.get(player).to({x: player.x - 32}, 250).call(move);
-		}
-		
+			
+			createjs.Tween.get(player).to({x: player.x - 32}, 200).call(move);
+			setTimeout(function(){
+				if (contain() != true){
+					createjs.Tween.get(player).to({x: player.x + 32}, 0).call(move);
+				}
+			}, 250);
+		}	
 	}
+	
+	
 	
 	
 	/***************************************************************************************************
 	Update Camera Function
 	****************************************************************************************************/
 	function updateCamera(){
-		stage.x = -player.x*GAME_SCALE + GAME_WIDTH/2 - player.width/2*GAME_SCALE;
-		stage.y = -player.y*GAME_SCALE + GAME_HEIGHT/2 + player.height/2*GAME_SCALE;
+		gameScene.x = -player.x*GAME_SCALE + GAME_WIDTH/2 - player.width/2*GAME_SCALE;
+		gameScene.y = -player.y*GAME_SCALE + GAME_HEIGHT/2 + player.height/2*GAME_SCALE;
 		//console.log(stage.x);
 		//console.log(-player.x);
 		//console.log(-player.width);
-		stage.x = -Math.max(0, Math.min(world.worldWidth*GAME_SCALE - GAME_WIDTH, -stage.x));
-		stage.y = -Math.max(0, Math.min(world.worldHeight*GAME_SCALE - GAME_HEIGHT, -stage.y));
+		gameScene.x = -Math.max(0, Math.min(world.worldWidth*GAME_SCALE - GAME_WIDTH, -gameScene.x));
+		gameScene.y = -Math.max(0, Math.min(world.worldHeight*GAME_SCALE - GAME_HEIGHT, -gameScene.y));
 	}
 	
 	/***************************************************************************************************
@@ -521,10 +559,55 @@ Helper Functions
 		// player is the sprite
 		// wallLayer is all of the GID values for walls
 		// need to create an array to loop through for all gid values 1,2,3,7,9
-				
-		playerOnFloor = tu.hitTestTile(player, wallLayer, 1, world, "every");
-		console.log(playerOnFloor.hit);
+		var playerOnFloor;
+		
+		if ((tu.hitTestTile(player, floorLayer, 8, world, "some")).hit == true) {
+			console.log("8");
+			return true;
+		}
+		else if ((tu.hitTestTile(player, floorLayer, 11, world, "some")).hit == true){
+			console.log("11");
+			return true;
+		}
+		else if ((tu.hitTestTile(player, floorLayer, 12, world, "some")).hit == true){
+			console.log("12");
+			return true;
+		} 
+		else if ((tu.hitTestTile(player, floorLayer, 4, world, "some")).hit == true){
+			console.log("4");
+			return true;
+		} 
+		else if ((tu.hitTestTile(player, floorLayer, 6, world, "some")).hit == true){
+			console.log("6");
+			return true;
+		}
+		else {
+			console.log("Not on floor.");
+			return false;
+		}
 	}
+	
+	/***************************************************************************************************
+	Tween Fix Function
+	****************************************************************************************************/
+	
+	function tweenFix(){
+		if (player.x % 32 != 0){
+			console.log("I'm off!: x");
+			console.log(player.x % 32);
+			player.position.x = player.position.x - (player.x % 32);
+			
+			
+		}
+		
+		if (player.y % 32 != 0){
+			console.log("I'm off; y");
+			console.log(player.y % 32);
+			player.position.y = player.position.y - (player.y % 32);
+		}
+		
+	}
+	
 	
 	
 	
