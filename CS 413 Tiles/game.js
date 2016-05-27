@@ -61,6 +61,7 @@ loader
 	.add('images/map.json')
 	.add('images/tileset.png')
 	
+	.add("audio/Bump.wav")
 	.add("audio/Back.wav")
 	.add("audio/Credits Tween.wav")
 	.add("audio/Hit.wav")
@@ -93,10 +94,11 @@ function setup(){
 	
 	backSound = PIXI.audioManager.getAudio("audio/Back.wav");
 	creditsTweenSound = PIXI.audioManager.getAudio("audio/Credits Tween.wav");
-	hitSound = PIXI.audioManager.getAudio("audio/Hit.wav");
+	// hitSound = PIXI.audioManager.getAudio("audio/Hit.wav");
 	instructSound = PIXI.audioManager.getAudio("audio/How to Play Tween.wav");
 	playSound = PIXI.audioManager.getAudio("audio/Play Tween.wav");
 	selectSound = PIXI.audioManager.getAudio("audio/Select.wav");
+	bumpSound = PIXI.audioManager.getAudio("audio/Bump.wav")
 	
 	
 	/*******************************************************************************************************
@@ -189,6 +191,7 @@ function setup(){
 		instructBut.on('mousedown',instructHandler);	
 		
 		
+		
 		// Credits button
 		introMenuButtons.addChild(creditsBut);
 		creditsBut.anchor.x = 0.5;
@@ -211,8 +214,8 @@ function setup(){
 		instructScene.addChild(instructBack);
 		instructBack.anchor.x = 0.5;
 		instructBack.anchor.y = 0.5;
-		instructBack.position.x = 300;		// Dummy Value
-		instructBack.position.y = 400;		// Dummy Value
+		instructBack.position.x = 250;		
+		instructBack.position.y = 500;		
 		instructBack.interactive = true;
 		instructBack.on('mousedown', generalBackHandler);
 		
@@ -227,8 +230,8 @@ function setup(){
 		creditScene.addChild(creditBack);
 		creditBack.anchor.x = 0.5;
 		creditBack.anchor.y = 0.5;
-		creditBack.position.x = 300;	// Dummy Value
-		creditBack.position.y = 400; 	// Dummuy Value
+		creditBack.position.x = 250;	
+		creditBack.position.y = 500; 	
 		creditBack.interactive = true;
 		creditBack.on('mousedown', generalBackHandler);
 	
@@ -240,7 +243,7 @@ function setup(){
 	gameScene.addChild(world);
 	
 	var character = world.getObject("playerCharacter");
-	player = new PIXI.Sprite(id["dumbChar.png"]);
+	player = new PIXI.Sprite(id["standDown.png"]);
 	
 	player.x = character.x;
 	player.y = character.y;
@@ -259,14 +262,14 @@ function setup(){
 	/*******************************************************************************************************
 	Game Over Scene 
 	*******************************************************************************************************/
-	gameOverScreen = new Sprite(id["Introduction Screen.png"]);			// Dummy Sprite
+	gameOverScreen = new Sprite(id["Introduction Screen.png"]);			
 	gameOverScene.addChild(gameOverScreen);
 	
 	
 	/*******************************************************************************************************
 	Win Scene 
 	*******************************************************************************************************/
-	gameWinScreen = new Sprite(id["Introduction Screen.png"]);				// Dummy Sprite
+	gameWinScreen = new Sprite(id["Introduction Screen.png"]);				
 	gameWinScene.addChild(gameOverScreen)
 	
 	/*******************************************************************************************************
@@ -313,6 +316,7 @@ Handlers
 		introScene.visible = false;
 		state = game;
 		gameScene.visible = true;
+		selectSound.play();
 	}
 	
 	/*******************************************************************************************************
@@ -501,6 +505,7 @@ Helper Functions
 		
 		if (player.direction == MOVE_UP){
 			createjs.Tween.get(player).to({y: player.y - 32}, 200).call(move);
+			
 			setTimeout(function(){
 				if (contain() != true){
 					createjs.Tween.get(player).to({y: player.y + 32}, 0).call(move);
@@ -562,35 +567,48 @@ Helper Functions
 		var playerOnFloor;
 		
 		if ((tu.hitTestTile(player, floorLayer, 8, world, "some")).hit == true) {
+			
 			console.log("8");
 			return true;
 		}
 		else if ((tu.hitTestTile(player, floorLayer, 11, world, "some")).hit == true){
+			
 			console.log("11");
 			return true;
 		}
 		else if ((tu.hitTestTile(player, floorLayer, 12, world, "some")).hit == true){
+			
 			console.log("12");
 			return true;
 		} 
 		else if ((tu.hitTestTile(player, floorLayer, 4, world, "some")).hit == true){
+			;
 			console.log("4");
 			return true;
 		} 
 		else if ((tu.hitTestTile(player, floorLayer, 6, world, "some")).hit == true){
+			
 			console.log("6");
 			return true;
 		}
 		else {
-			console.log("Not on floor.");
+		
+			if ((tu.hitTestTile(player, wallLayer, 9, world, "some")).hit == true){
+				
+				gameScene.visible = false;
+				gameWinScene.visible = true;
+			}
+			else{
+				bumpSound.play()
+				console.log("Not on floor.");
 			return false;
+			}
 		}
 	}
 	
 	/***************************************************************************************************
 	Tween Fix Function
 	****************************************************************************************************/
-	
 	function tweenFix(){
 		if (player.x % 32 != 0){
 			console.log("I'm off!: x");
@@ -605,9 +623,9 @@ Helper Functions
 			console.log(player.y % 32);
 			player.position.y = player.position.y - (player.y % 32);
 		}
-		
 	}
 	
+
 	
 	
 	
